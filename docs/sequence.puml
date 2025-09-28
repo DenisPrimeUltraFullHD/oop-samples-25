@@ -1,0 +1,29 @@
+sequenceDiagram
+    participant Payroll
+    participant EmployeeList as List<Employee>
+    participant Employee
+    participant BonusEligible
+    participant Paycheck
+
+    Payroll->>EmployeeList: Receive list of employees
+    loop Process each Employee
+        Payroll->>Employee: getName()
+        Employee-->>Payroll: return name
+
+        Payroll->>Employee: instanceof BonusEligible
+        Employee-->>Payroll: true/false
+
+        alt BonusEligible
+            Payroll->>BonusEligible: getBonus()
+            BonusEligible-->>Payroll: return bonus
+        else Not BonusEligible
+            Payroll->>Payroll: bonus = 0
+        end
+
+        Payroll->>Payroll: Calculate total pay (salary + bonus)
+        Payroll->>Paycheck: create(totalPay, payDate)
+        Paycheck-->>Payroll: Paycheck created
+
+        Payroll->>Paycheck: displayPaycheckInfo()
+        Paycheck-->>Payroll: displays paycheck details
+    end

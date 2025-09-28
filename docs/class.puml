@@ -1,0 +1,48 @@
+classDiagram
+  class BonusEligible {
+    +double DEFAULT_BONUS$
+    +getBonus()
+    +setBonus(double bonus)
+  }
+
+  class Person {
+    -String name
+    +Person()
+    +Person(String name)
+    +getName()
+    +setName(String name)
+    +displayInfo()
+    +final getFullDetails()
+    +printInfo(Person person)$
+  }
+
+  class Employee {
+    -double bonus
+    +Employee()
+    +Employee(String name)
+    +Employee(String name, double bonus)
+    +getBonus()
+    +setBonus(double bonus)
+    +abstract displayInfo()*
+  }
+
+  class Paycheck {
+    +double amount
+    +String payDate
+    +displayPaycheckInfo()
+  }
+
+  class Payroll {
+    -List~Person~ employees
+    -Paycheck paycheck
+    +Payroll(List~Person~ employees)
+    +void processPayroll(double salary)
+  }
+
+  <<interface>> BonusEligible
+  <<Abstract>> Person
+  Employee ..|> BonusEligible: Implementation
+  Person <|-- Employee: Inheritence
+
+  Payroll "1" *-- "1" Paycheck : Composition
+  Payroll "1" *-- "*"Person: Composition

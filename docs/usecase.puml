@@ -1,0 +1,15 @@
+@startuml
+actor Бухгалтер
+actor Працівник
+left to right direction
+rectangle "Система нарахування зарплати" {
+    usecase "Додати працівника" as UC_AddEmployees
+    usecase "Нарахувати зарплату" as UC_ProcessPayroll
+    usecase "Видача квітанції" as UC_DisplayPayCheckInfo
+}
+
+Бухгалтер --> UC_AddEmployees
+Бухгалтер --> UC_ProcessPayroll
+Працівник --> UC_DisplayPayCheckInfo
+UC_ProcessPayroll .> UC_DisplayPayCheckInfo : <<містить>>
+@enduml

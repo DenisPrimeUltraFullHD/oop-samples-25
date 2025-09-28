@@ -1,0 +1,9 @@
+stateDiagram-v2
+    [*] --> Initialized : Створено Payroll зі списком співробітників
+    Initialized --> Processing : викликано processPayroll()
+    Processing --> CheckingBonus : перевірка instanceof BonusEligible
+    CheckingBonus --> CalculatingPay : додати бонус
+    CalculatingPay --> CreatingPaycheck : створити Paycheck
+    CreatingPaycheck --> DisplayingPaycheck : відобразити Paycheck
+    DisplayingPaycheck --> Processing : наступний співробітник (цикл)
+    Processing --> [*] : Завершено обробку всіх співробітників
