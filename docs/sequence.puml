@@ -1,29 +1,22 @@
 sequenceDiagram
-    participant Payroll
-    participant EmployeeList as List<Employee>
-    participant Employee
-    participant BonusEligible
-    participant Paycheck
+    participant Operator as Оператор
+    participant Storekeeper as Комірник
+    participant Driver as Водій
+    participant Delivery as Поставка
+    participant Goods as Товар
 
-    Payroll->>EmployeeList: Receive list of employees
-    loop Process each Employee
-        Payroll->>Employee: getName()
-        Employee-->>Payroll: return name
+    Note right of Operator: Реєструє попередню інформацію
+    Operator->>Delivery: registerPreInfo()
+    Operator->>Delivery: openDelivery()
+    Operator->>Delivery: groupOrders()
 
-        Payroll->>Employee: instanceof BonusEligible
-        Employee-->>Payroll: true/false
+    Note right of Storekeeper: Сканує товар і розміщує за строком придатності
+    Storekeeper->>Goods: scanGoods()
+    Storekeeper->>Delivery: placeGoodsByDate()
+    Delivery->>Goods: addGoods(item)
 
-        alt BonusEligible
-            Payroll->>BonusEligible: getBonus()
-            BonusEligible-->>Payroll: return bonus
-        else Not BonusEligible
-            Payroll->>Payroll: bonus = 0
-        end
+    Note right of Driver: Здає вантаж
+    Driver->>Delivery: handoverCargo()
+    Delivery->>Driver: getRouteSheet()
 
-        Payroll->>Payroll: Calculate total pay (salary + bonus)
-        Payroll->>Paycheck: create(totalPay, payDate)
-        Paycheck-->>Payroll: Paycheck created
-
-        Payroll->>Paycheck: displayPaycheckInfo()
-        Paycheck-->>Payroll: displays paycheck details
-    end
+    Note over Delivery,Goods: Поставка складається з товару
