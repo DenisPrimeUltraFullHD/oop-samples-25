@@ -1,48 +1,62 @@
-classDiagram
-  class BonusEligible {
-    +double DEFAULT_BONUS$
-    +getBonus()
-    +setBonus(double bonus)
-  }
+@startuml
+class Person {
+        <<Abstract>>
+        -String name
+        +Person(name)
+        +getName() String$
+        +doWork()*
+    }
 
-  class Person {
-    -String name
-    +Person()
-    +Person(String name)
-    +getName()
-    +setName(String name)
-    +displayInfo()
-    +final getFullDetails()
-    +printInfo(Person person)$
-  }
+    class ICanMarkDelivery {
+        <<Interface>>
+        +markDelivery()
+    }
 
-  class Employee {
-    -double bonus
-    +Employee()
-    +Employee(String name)
-    +Employee(String name, double bonus)
-    +getBonus()
-    +setBonus(double bonus)
-    +abstract displayInfo()*
-  }
+    class Operator {
+        +Operator(name)
+        +registerPreInfo()
+        +openDelivery()
+        +groupOrders()
+        +getName() String$
+    }
 
-  class Paycheck {
-    +double amount
-    +String payDate
-    +displayPaycheckInfo()
-  }
+    class Storekeeper {
+        +Storekeeper(name)
+        +scanGoods()
+        +placeGoodsByDate()
+        +getName() String$
+    }
 
-  class Payroll {
-    -List~Person~ employees
-    -Paycheck paycheck
-    +Payroll(List~Person~ employees)
-    +void processPayroll(double salary)
-  }
+    class Driver {
+        +Driver(name)
+        +handoverCargo()
+        +getRouteSheet()
+        +getName() String$
+    }
 
-  <<interface>> BonusEligible
-  <<Abstract>> Person
-  Employee ..|> BonusEligible: Implementation
-  Person <|-- Employee: Inheritence
+    class Delivery {
+        +Delivery(info)
+        +addGoods(item)
+        +completeDelivery()$
+    }
 
-  Payroll "1" *-- "1" Paycheck : Composition
-  Payroll "1" *-- "*"Person: Composition
+    class Goods {
+        +Goods(barcode, expiry)
+        +getInfo()
+    }
+
+
+    Person <|-- Operator
+    Person <|-- Storekeeper
+    Person <|-- Driver
+
+    Operator ..|> ICanMarkDelivery
+
+    Delivery *-- Goods : складається з
+
+    Storekeeper ..> Delivery : сканує/поміщає
+    Driver ..> Delivery : здає
+
+
+    Operator o-- Delivery : відкриває/групує
+@enduml
