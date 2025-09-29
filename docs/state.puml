@@ -1,9 +1,31 @@
 stateDiagram-v2
-    [*] --> Initialized : Створено Payroll зі списком співробітників
-    Initialized --> Processing : викликано processPayroll()
-    Processing --> CheckingBonus : перевірка instanceof BonusEligible
-    CheckingBonus --> CalculatingPay : додати бонус
-    CalculatingPay --> CreatingPaycheck : створити Paycheck
-    CreatingPaycheck --> DisplayingPaycheck : відобразити Paycheck
-    DisplayingPaycheck --> Processing : наступний співробітник (цикл)
-    Processing --> [*] : Завершено обробку всіх співробітників
+  
+    [*] --> AwaitingPreInfo : Оператор реєструє\nпопередню інформацію
+    AwaitingPreInfo : Очікує реєстрації
+    AwaitingPreInfo --> Opened : Оператор відкриває поставку
+    Opened : Відкрита поставка
+    Opened --> GoodsAdded : Комірник сканує/розміщує товар
+    GoodsAdded : Додаються товари
+    GoodsAdded --> GoodsAdded : Комірник додає нові товари
+    GoodsAdded --> ReadyToDeliver : Доставка укомплектована
+    ReadyToDeliver : Готова до здачі
+    ReadyToDeliver --> Completed : Водій здає вантаж
+    Completed : Завершена поставка
+    Completed --> [*]
+
+    %% Примітки до ролей
+    note right of AwaitingPreInfo
+      Оператор: реєструє попередню інформацію
+    end note
+    note right of Opened
+      Оператор: відкриває поставку та групує замовлення
+    end note
+    note right of GoodsAdded
+      Комірник: сканує та розміщує товари за строком придатності
+    end note
+    note right of ReadyToDeliver
+      Водій: отримує маршрутний лист
+    end note
+    note right of Completed
+      Водій: здає вантаж
+    end note
