@@ -1,28 +1,30 @@
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Головний клас для демонстрації роботи програми
+ * Головний клас для запуску імітаційного прототипу системи доставки
  */
 public class Main {
     public static void main(String[] args) {
-        // Створюємо працівників
-        Employee emp1 = new Employee("Іван Петренко", 1000.0);
-        Employee emp2 = new Employee("Марія Коваленко", 500.0);
-        
-        // Виводимо інформацію про працівників
-        System.out.println("\nІнформація про працівників:");
-        emp1.displayInfo();
-        emp2.displayInfo();
-        
-        // Створюємо список працівників
-        List<Person> employees = new ArrayList<>();
-        employees.add(emp1);
-        employees.add(emp2);
-        
-        // Створюємо відомість та обробляємо зарплату
-        System.out.println("\nОбробка зарплати:");
-        Payroll payroll = new Payroll(employees);
-        payroll.processPayroll(5000.0);
+        // Створення учасників
+        Operator operator = new Operator("Іван");
+        Storekeeper storekeeper = new Storekeeper("Петро");
+        Driver driver = new Driver("Олег");
+
+        // Оператор реєструє та відкриває поставку
+        operator.registerPreInfo();
+        Delivery delivery = new Delivery("Поставка №1");
+        operator.openDelivery();
+        operator.groupOrders();
+
+        // Комірник сканує та розміщує товари
+        Goods goods1 = new Goods("12345", "2025-12-31");
+        Goods goods2 = new Goods("67890", "2026-01-15");
+        storekeeper.scanGoods();
+        delivery.addGoods(goods1);
+        delivery.addGoods(goods2);
+        storekeeper.placeGoodsByDate();
+
+        // Водій здає вантаж та отримує маршрутний лист
+        driver.handoverCargo();
+        delivery.completeDelivery();
+        driver.getRouteSheet();
     }
 }

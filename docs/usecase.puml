@@ -1,15 +1,26 @@
 @startuml
-actor Бухгалтер
-actor Працівник
+actor Оператор
+actor Кладовщик
+actor Водій
 left to right direction
-rectangle "Система нарахування зарплати" {
-    usecase "Додати працівника" as UC_AddEmployees
-    usecase "Нарахувати зарплату" as UC_ProcessPayroll
-    usecase "Видача квітанції" as UC_DisplayPayCheckInfo
+rectangle "Система доставки" {
+    usecase "Зареєструвати попередню інформацію" as UC_RegisterPreInfo
+    usecase "Відкрити доставку" as UC_OpenDelivery
+    usecase "Групувати замовлення" as UC_GroupOrders
+    usecase "Сканувати товари" as UC_ScanGoods
+    usecase "Розмістити товари за датою" as UC_PlaceGoodsByDate
+    usecase "Здати вантаж" as UC_HandoverCargo
+    usecase "Отримати маршрутний лист" as UC_GetRouteSheet
+    usecase "Завершити доставку" as UC_CompleteDelivery
 }
 
-Бухгалтер --> UC_AddEmployees
-Бухгалтер --> UC_ProcessPayroll
-Працівник --> UC_DisplayPayCheckInfo
-UC_ProcessPayroll .> UC_DisplayPayCheckInfo : <<містить>>
+Оператор --> UC_RegisterPreInfo
+Оператор --> UC_OpenDelivery
+Оператор --> UC_GroupOrders
+Кладовщик --> UC_ScanGoods
+Кладовщик --> UC_PlaceGoodsByDate
+Водій --> UC_HandoverCargo
+Водій --> UC_GetRouteSheet
+UC_OpenDelivery .> UC_GroupOrders : <<включає>>
+UC_HandoverCargo .> UC_CompleteDelivery : <<включає>>
 @enduml
